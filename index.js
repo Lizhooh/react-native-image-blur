@@ -27,6 +27,8 @@ export default class ImageBlur extends Component {
         blurAmount: 10,
         // 滤镜颜色
         overlayColor: null,
+
+        delay: 0,
     }
 
     constructor(props) {
@@ -41,7 +43,7 @@ export default class ImageBlur extends Component {
         InteractionManager.runAfterInteractions(() => {
             setTimeout(() => {
                 this.setState({ viewRef: findNodeHandle(this._image), load: false });
-            }, 240);
+            }, this.props.delay);
         });
     }
 
