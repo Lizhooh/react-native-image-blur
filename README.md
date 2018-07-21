@@ -50,8 +50,9 @@ import ImageBlur from 'react-native-image-blur';
 
 name | type | description
 :--- | :--- | :---
-style | object | image style
-source | object | image source
+imageStyle | object | image style.
+contentStyle | object | children component style.
+source | object | image source.
 blurType | string | xlight、light、dark. default is dark.
 blurRadius | number | (only android) range:  0 - 25, default is 8.
 downsampleFactor | number | (only android) range: > 0, default is null.

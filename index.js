@@ -9,10 +9,12 @@ import { BlurView } from 'react-native-blur';
 export default class ImageBlur extends Component {
 
     static defaultProps = {
-        // image styles
-        style: {},
+        imageStyle: {},
+        contentStyle: {},
+
         // image source
         source: {},
+        //
         // 模糊类型
         blurType: 'dark',
         // 模糊半径
@@ -34,13 +36,16 @@ export default class ImageBlur extends Component {
 
     imageLoaded = e => {
         InteractionManager.runAfterInteractions(() => {
-            this.setState({ viewRef: findNodeHandle(this._image) });
+            setTimeout(() => {
+                this.setState({ viewRef: findNodeHandle(this._image) });
+            }, 80);
         });
     }
 
     render() {
         const {
-            style, source, blurType, blurRadius,
+            imageStyle, contentStyle,
+            source, blurType, blurRadius,
             overlayColor, downsampleFactor, blurAmount,
             children, ...rest,
         } = this.props;
@@ -50,7 +55,7 @@ export default class ImageBlur extends Component {
             <View style={styles.container}>
                 <Image
                     source={source}
-                    style={style}
+                    style={imageStyle}
                     ref={r => this._image = r}
                     onLoadEnd={this.imageLoaded}
                     {...rest}
@@ -66,7 +71,7 @@ export default class ImageBlur extends Component {
                         blurAmount={blurAmount}
                     />
                 }
-                <View style={styles.children}>
+                <View style={[styles.children, contentStyle]}>
                     {children}
                 </View>
             </View>
@@ -82,9 +87,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0, left: 0,
         bottom: 0, right: 0,
-        zIndex: 1,
     },
     children: {
         position: 'absolute',
+        top: 0, left: 0, right: 0,
     }
 });
