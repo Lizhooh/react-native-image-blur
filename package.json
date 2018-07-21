@@ -1,0 +1,17 @@
+{
+  "name": "react-native-image-blur",
+  "version": "1.0.0",
+  "description": "react-native-image-blur is a wrapper for react-native-blur. Provide image blurring.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lizhooh/react-native-image-blur"
+  },
+  "author": "lizhooh",
+  "license": "MIT",
+  "keywords": [
+    "image-blur",
+    "react-native-image-blur",
+    "react-native-blur"
+  ]
+}
