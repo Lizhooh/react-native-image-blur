@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
     View, StyleSheet,
     Image, findNodeHandle,
-    InteractionManager
+    InteractionManager,
+    ActivityIndicator,
 } from 'react-native';
 import { BlurView } from 'react-native-blur';
+import rot from 'reactotron-react-native';
 
 export default class ImageBlur extends Component {
 
@@ -30,15 +32,16 @@ export default class ImageBlur extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            viewRef: null
+            viewRef: null,
+            load: true,
         }
     }
 
     imageLoaded = e => {
         InteractionManager.runAfterInteractions(() => {
             setTimeout(() => {
-                this.setState({ viewRef: findNodeHandle(this._image) });
-            }, 80);
+                this.setState({ viewRef: findNodeHandle(this._image), load: false });
+            }, 240);
         });
     }
 
@@ -49,13 +52,16 @@ export default class ImageBlur extends Component {
             overlayColor, downsampleFactor, blurAmount,
             children, ...rest,
         } = this.props;
-        const { viewRef } = this.state;
+        const { viewRef, load } = this.state;
 
         return (
             <View style={styles.container}>
                 <Image
+                    key={source.uri || Math.random()}
                     source={source}
-                    style={imageStyle}
+                    style={[imageStyle, {
+                        opacity: load ? 0 : 1,
+                    }]}
                     ref={r => this._image = r}
                     onLoadEnd={this.imageLoaded}
                     {...rest}
@@ -71,9 +77,14 @@ export default class ImageBlur extends Component {
                         blurAmount={blurAmount}
                     />
                 }
+
                 <View style={[styles.children, contentStyle]}>
                     {children}
                 </View>
+
+                {load && <View style={styles.center}>
+                    <ActivityIndicator />
+                </View>}
             </View>
         );
     }
@@ -91,5 +102,12 @@ const styles = StyleSheet.create({
     children: {
         position: 'absolute',
         top: 0, left: 0, right: 0,
+    },
+    center: {
+        position: 'absolute',
+        top: 0, left: 0,
+        right: 0, bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
